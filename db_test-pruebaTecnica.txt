@@ -1,0 +1,79 @@
+CREATE DATABASE db_test
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'Spanish_Ecuador.1252'
+    LC_CTYPE = 'Spanish_Ecuador.1252'
+    LOCALE_PROVIDER = 'libc'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1
+    IS_TEMPLATE = False;
+
+CREATE TABLE public.persona
+(
+    id bigserial NOT NULL,
+    identificacion character varying,
+    nombre character varying,
+    genero character varying,
+    fecha_nacimiento date,
+    direccion character varying,
+    telefono character varying,
+	estado character varying,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE IF EXISTS public.persona
+    OWNER to postgres;
+	
+CREATE TABLE public.cliente
+(
+    id bigserial NOT NULL,
+    persona bigint NOT NULL,
+    password character varying,
+    estado character varying,
+    PRIMARY KEY (id),
+    FOREIGN KEY (persona)
+        REFERENCES public.persona (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+);
+
+ALTER TABLE IF EXISTS public.cliente
+    OWNER to postgres;
+
+
+CREATE TABLE public.cuenta
+(
+    id bigserial NOT NULL,
+    cliente bigint,
+    num_cuenta character varying NOT NULL,
+    tipo character varying NOT NULL,
+    saldo_inicial numeric(19, 2) NOT NULL,
+    estado character varying,
+    PRIMARY KEY (id),
+    FOREIGN KEY (cliente)
+        REFERENCES public.cliente (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+);
+
+ALTER TABLE IF EXISTS public.cuenta
+    OWNER to postgres;
+	
+	
+CREATE TABLE public.cuenta_movimiento
+(
+    id bigserial NOT NULL,
+    cuenta bigint NOT NULL,
+    fecha timestamp without time zone,
+    tipo_movimiento character varying,
+	saldo_inicial numeric(19, 2),
+    valor numeric(19, 2),
+    saldo numeric(19, 2),
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE IF EXISTS public.cuenta_movimiento
+    OWNER to postgres;
