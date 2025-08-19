@@ -21,6 +21,6 @@ public class ClienteApi {
 
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        return new ResponseEntity<>(clienteService.eliminar(id), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(clienteService.eliminar(id), HttpStatus.OK);
     }
 }

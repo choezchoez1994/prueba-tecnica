@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @Data
 @Entity
-@Table(name = "cuenta_movimiento")
+@Table(name = "cuenta_movimiento", schema = "public")
 public class CuentaMovimiento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +25,8 @@ public class CuentaMovimiento {
     private LocalDate fecha;
     @Column(name = "tipo_movimiento", length = Integer.MAX_VALUE)
     private String tipoMovimiento;
+    @Column(name = "saldo_inicial", precision = 19, scale = 2)
+    private BigDecimal saldoInicial;
     @Column(name = "valor", precision = 19, scale = 2)
     private BigDecimal valor;
     @Column(name = "saldo", precision = 19, scale = 2)

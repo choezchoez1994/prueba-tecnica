@@ -5,7 +5,7 @@ spring:
     name: prueba-tecnica
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://127.0.0.1:5433/db_test
+    url: jdbc:postgresql://127.0.0.1:5432/db_test
     username: sisapp
     password: sisapp98
   jpa:

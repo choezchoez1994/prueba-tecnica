@@ -8,10 +8,9 @@ import com.prueba.services.CuentaMovimientoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @RestController
@@ -23,5 +22,10 @@ public class CuentaMovimientoApi {
     @PostMapping("/guardar")
     public ResponseEntity<?> guardar(@RequestBody CuentaMovimientoDto cuentaMovimiento) {
         return new ResponseEntity<>(cuentaMovimientoService.guardar(cuentaMovimiento), HttpStatus.OK);
+    }
+
+    @GetMapping("estadoCuenta/reporte/" )
+    public ResponseEntity<?> reporteEstadoCuenta(@RequestParam Long cuentaId, @RequestParam LocalDate fechaInicio, @RequestParam LocalDate fechaFin) {
+        return new ResponseEntity<>(cuentaMovimientoService.estadoCuentaMovimientos(cuentaId, fechaInicio, fechaFin), HttpStatus.OK);
     }
 }

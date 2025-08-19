@@ -25,7 +25,7 @@ public class CuentaService {
     public RespuestaWs guardar(CuentaDto data) {
         RespuestaWs rw = null;
         Cuenta cta = cuentaMapper.toEntity(data);
-        data.setEstado("ACTIVO");
+        cta.setEstado("ACTIVO");
         cta = cuentaJpaRepository.save(cta);
         // creamos un movimiento inicial por una cuenta nueva
         if (data.getId() == null) {
@@ -57,8 +57,10 @@ public class CuentaService {
                 .cuenta(cta)
                 .fecha(LocalDate.now())
                 .saldo(cta.getSaldoInicial())
-                .valor(BigDecimal.ZERO)
+                .valor(cta.getSaldoInicial())
+                .saldoInicial(BigDecimal.ZERO)
                 .tipoMovimiento("DEPOSITO")
+                .estado("ACTIVO")
                 .build();
         cuentaMovimientoJpaRepository.save(cm);
     }

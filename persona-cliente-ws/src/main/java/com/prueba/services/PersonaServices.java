@@ -35,4 +35,31 @@ public class PersonaServices {
         return respuestaWs;
     }
 
+    public RespuestaWs buscaByIdentificacion(String identificacion) {
+        RespuestaWs respuestaWs = null;
+        Persona persona = null;
+        try {
+            persona = personaJpaRepository.findByIdentificacion(identificacion);
+            if (persona != null) {
+                respuestaWs = RespuestaWs.builder()
+                        .estado(true)
+                        .mensaje("Persona encontrada")
+                        .data(personaMapper.toDto(persona))
+                        .build();
+            } else {
+                respuestaWs = RespuestaWs.builder()
+                        .estado(false)
+                        .mensaje("Persona no encontrada")
+                        .build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            respuestaWs = RespuestaWs.builder()
+                    .estado(false)
+                    .mensaje("Error al buscar la persona: " + e.getMessage())
+                    .build();
+        }
+        return respuestaWs;
+    }
+
 }

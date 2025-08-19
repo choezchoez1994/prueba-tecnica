@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  prueba:
+    container_name: prueba
+    image: prueba:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8027:8027"
+    environment:
+      - TZ=America/Guayaquil
+    networks:
+      - default

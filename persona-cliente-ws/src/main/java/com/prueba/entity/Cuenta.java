@@ -9,10 +9,10 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Entity
-@Table(name = "cuenta")
+@Table(name = "cuenta", schema = "public")
 public class Cuenta {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)

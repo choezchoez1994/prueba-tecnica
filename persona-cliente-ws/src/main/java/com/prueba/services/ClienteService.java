@@ -9,11 +9,16 @@ import com.prueba.model.RespuestaWs;
 import com.prueba.repository.ClienteJpaRepository;
 import com.prueba.repository.PersonaJpaRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class ClienteService {
+
+
+    private static final Log log = LogFactory.getLog(ClienteService.class);
 
     private final ClienteJpaRepository clienteJpaRepository;
     private final ClienteMapper clienteMapper;
@@ -25,7 +30,10 @@ public class ClienteService {
         Cliente cliente = null;
         try {
             if (data.getPersona().getId() == null) {
-                RespuestaWs respuestaWs = personaServices.guardar(data.getPersona());
+                RespuestaWs respuestaWs = personaServices.buscaByIdentificacion(data.getPersona().getIdentificacion());
+                if (!respuestaWs.getEstado()) {
+                    respuestaWs = personaServices.guardar(data.getPersona());
+                }
                 if (respuestaWs.getEstado()) {
                     personaDto = (PersonaDto) respuestaWs.getData();
                     data.setPersona(personaDto);
@@ -46,6 +54,7 @@ public class ClienteService {
                     .estado(true)
                     .build();
         } catch (Exception e) {
+            log.error("Error al guardar el cliente: ", e);
             rw = RespuestaWs.builder()
                     .estado(false)
                     .mensaje("Error al guardar el cliente: " + e.getMessage())
